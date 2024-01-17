@@ -6,7 +6,7 @@
 | ------------------ | ------ | ------------------------- |
 | nickname           | string | null: false               |
 | email              | string | null: false, unique: true |
-| password           | string | null: false               |
+| encrypted_password | string | null: false               |
 | lastname           | string | null: false               |
 | firstname          | string | null: false               |
 | lastname_kana      | string | null: false               |
@@ -15,8 +15,8 @@
 
 ### Association
 
-- has_many :items
-- has_many :purchases
+- belongs_to :item
+- belongs_to :purchase
 
 
 ## itemsテーブル
@@ -35,8 +35,8 @@
 
 ### Association
 
-- has_one :users
-- has_one :purchases
+- has_one :user
+- has_one :purchase
 
 
 ## purchasesテーブル
@@ -48,8 +48,9 @@
 
 ### Association
 
-- has_one :users
-- has_one :items
+- belongs_to :user
+- belongs_to :item
+- has_one :shipping
 
 
 ## shippingsテーブル
@@ -66,4 +67,4 @@
 
 ### Association
 
-- has_one :purchases
+- belongs_to :purchase
