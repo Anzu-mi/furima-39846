@@ -27,7 +27,7 @@
 
     <% if user_signed_in? && @item.purchases.empty? %>
       <% if current_user.id == @item.user_id %>
-        <%= link_to "商品の編集", "#", method: :get, class: "item-red-btn" %>
+        <%= link_to "商品の編集", edit_item_path, method: :get, class: "item-red-btn" %>
         <p class="or-text">or</p>
         <%= link_to "削除", "#", data: {turbo_method: :delete}, class:"item-destroy" %>
       <% else %>
@@ -36,7 +36,7 @@
     <% end %>
 
     <div class="item-explain-box">
-      <span><%= @item.item_name %></span>
+      <span><%= @item.item_comment %></span>
     </div>
     <table class="detail-table">
       <tbody>
