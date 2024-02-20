@@ -5,7 +5,6 @@ function post (){
   const inputValue = priceInput.value;
   const addTaxDom = document.getElementById("add-tax-price")
   addTaxDom.innerHTML = Math.floor(priceInput.value * 0.1 );
-  console.log("test")
   const addProfitDom = document.getElementById("profit")
   addProfitDom.innerHTML = Math.floor(priceInput.value - Math.floor(priceInput.value * 0.1));
   })
