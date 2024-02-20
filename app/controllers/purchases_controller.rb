@@ -1,9 +1,10 @@
 class PurchasesController < ApplicationController
   before_action :authenticate_user!, only: [:index]
+  before_action :set_item, only: [:index, :create]
 
   def index
+    gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
     @purchase_shipping = PurchaseShipping.new
-    @item = Item.find(params[:item_id])
     if @item.purchases.exists?
       redirect_to root_path
     elsif @item.user != current_user
@@ -15,7 +16,6 @@ class PurchasesController < ApplicationController
 
   def create
     @purchase_shipping = PurchaseShipping.new(purchase_params)
-    @item = Item.find(params[:item_id])
     if @purchase_shipping.valid?
       pay_item
       @purchase_shipping.save
@@ -31,12 +31,14 @@ class PurchasesController < ApplicationController
     params.require(:purchase_shipping).permit(:post_code, :prefecture_id, :municipalities, :street_address, :building_name, :telephone).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
   end
 
+  def set_item
+    @item = Item.find(params[:id])
+  end
+
   def pay_item
-    Payjp.api_key = "sk_test_b2a5683d80f987422b1f3def" 
-    item = Item.find(params[:item_id])
-    amount = item.price
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"] 
     Payjp::Charge.create(
-      amount: amount,  # 商品の値段
+      amount: @item.price,  # 商品の値段
       card: purchase_params[:token],    # カードトークン
       currency: 'jpy'                 # 通貨の種類（日本円）
     )

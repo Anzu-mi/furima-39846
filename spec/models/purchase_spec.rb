@@ -9,7 +9,7 @@ RSpec.describe PurchaseShipping, type: :model do
 
   describe '商品購入' do
     context '商品購入できるとき' do
-      it 'bulding_name意外の項目に入力があれば登録できる' do
+      it '全ての項目に入力があれば登録できる' do
         expect(@purchase).to be_valid
       end
     end
@@ -83,6 +83,16 @@ RSpec.describe PurchaseShipping, type: :model do
         @purchase.token = nil
         @purchase.valid?
         expect(@purchase.errors.full_messages).to include("Token can't be blank")
+      end
+      it 'itemが紐づいていないと購入できない' do
+        @purchase.item_id = nil
+        @purchase.valid?
+        expect(@purchase.errors.full_messages).to include("Item can't be blank")
+      end
+      it 'userが紐づいていないと購入できない' do
+        @purchase.user_id = nil
+        @purchase.valid?
+        expect(@purchase.errors.full_messages).to include("User can't be blank")
       end
     end
   end

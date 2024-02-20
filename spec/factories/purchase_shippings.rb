@@ -4,9 +4,8 @@ FactoryBot.define do
     prefecture_id             { 2 }
     municipalities            { "テスト" }
     street_address            { "テスト1-1-1"}
+    building_name             { "テストビル" }
     telephone                 { "09011112222" }
     token                     { "tok_abcdefghijk00000000000000000" }
-    association :user
-    association :item
   end
 end
