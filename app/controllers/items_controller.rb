@@ -24,6 +24,11 @@ class ItemsController < ApplicationController
   end
 
   def edit
+    if @item.purchases.exists?
+      redirect_to root_path
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def update
